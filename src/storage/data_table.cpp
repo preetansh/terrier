@@ -45,7 +45,8 @@ void DataTable::Scan(const common::ManagedPointer<transaction::TransactionContex
   // but can be improved if block is read-only, or if we implement version synopsis, to just use std::memcpy when it's
   // safe
   uint32_t filled = 0;
-  while (filled < out_buffer->MaxTuples() && *start_pos != end()) {
+  auto itEnd = end();
+  while (filled < out_buffer->MaxTuples() && *start_pos != itEnd) {
     ProjectedColumns::RowView row = out_buffer->InterpretAsRow(filled);
     const TupleSlot slot = **start_pos;
     // Only fill the buffer with valid, visible tuples
