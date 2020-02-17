@@ -45,6 +45,9 @@ void DataTable::Scan(const common::ManagedPointer<transaction::TransactionContex
   // but can be improved if block is read-only, or if we implement version synopsis, to just use std::memcpy when it's
   // safe
   uint32_t filled = 0;
+  // Store the SlotIterator from end() call to check for loop termination and prevent calling the end() function
+  // each time we update the start_pos iterator. Since, the new blocks are not visible to this Scan, having the
+  // end() value stored does not lead to an incorrect Scan().
   auto itEnd = end();
   while (filled < out_buffer->MaxTuples() && *start_pos != itEnd) {
     ProjectedColumns::RowView row = out_buffer->InterpretAsRow(filled);
